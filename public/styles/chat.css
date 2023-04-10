@@ -1,0 +1,132 @@
+.chat-header{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    color: black;
+    border-top: solid 1px yellow;
+    border-bottom: solid 1px yellow;
+    border-radius: 25px;
+    box-shadow: 0 0 8px 2px black;
+    background-color: rgba(0, 0, 0, 0.850);
+    margin-top: 1rem ;
+    padding: 15px 10px;
+    gap: 10px;
+    text-align: center;
+}
+
+.chat{
+    width: 85%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    padding: 10px;
+}
+
+.register{
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+    padding: 1rem 0;
+}
+.register .form{
+    box-shadow: none;
+    margin: 1rem auto;
+}
+
+.chat-msg{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    overflow: scroll;
+    padding-right: 10px;
+
+}
+.chat-msg::-webkit-scrollbar {width: 3px; height: 1px; }
+.chat-msg::-webkit-scrollbar-track {background: rgba(255, 255, 255, 0.527); }
+.chat-msg::-webkit-scrollbar-thumb {background-color: yellow; border-radius: 8px; }
+
+
+
+.contain-newMsg{
+    width: 100%;
+}
+.message{
+    color: black;
+    background-color: yellow;
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+}
+.message p{
+    word-wrap: break-word;
+
+}
+.msg-byUser{
+    display: flex;
+    justify-content: flex-end;
+}
+.msg-byUser .message{
+    background-color: white;
+}
+/* 
+.msg-byOTher{
+    text-align: left;
+} */
+
+
+.chat-form{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 5px;
+}
+.chat-form input{
+    border-radius: 10px;
+}
+.chat-form input:nth-child(1){
+    width: 90%;
+    padding: 10px;
+
+}
+.chat-form input:nth-child(2){
+    width: auto;
+    padding: 5px 7px;
+}
+#logout{
+    background-color: red;
+    font-weight: 600;
+    padding: 10px 30px;
+    margin: 0 auto 1rem;
+    border-radius: 12px;
+}
+.off{
+    display: none;
+}
+.on{
+    display: block;
+}
+@media only screen and (max-width: 768px){ 
+    .chat, .register, .form{
+        width: 95%;
+    }
+}

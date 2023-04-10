@@ -1,0 +1,41 @@
+<div class="container products">
+    {{#if viewsAll}}
+    {{#each allCarts}}
+    <div class="list-products">
+        <div class="products-header">
+            <h2>Carrito N°:{{_id}}</h2>
+            <p>Id:{{_id}}</p>
+        </div>
+        <h3>Productos en el Carrito:</h3>
+        <br>
+        {{#each products}}
+        <p>Producto con el ID: {{product._id}}</p>
+        <p>Categoria: {{product.category}}</p>
+        <p>Titulo: {{product.title}}</p>
+        <p>Precio: {{product.price}}</p>
+        <p>Cantidad:{{quantity}}</p>
+        <hr>
+        {{/each}}
+
+    </div>
+    {{/each}}
+
+
+
+    {{else}}
+    <div class="list-products">
+        <div class="products-header">
+            <h2>Carrito N°:{{cart._id}}</h2>
+            <p>Id:{{cart._id}}</p>
+        </div>
+        <h3>Productos en el Carrito:</h3>
+        <br>
+        {{#each cart.products}}
+        <p>Producto con el ID: {{_id}}</p>
+        <p>Cantidad:{{quantity}}</p>
+        <hr>
+        {{/each}}
+    </div>
+
+    {{/if}}
+</div>
