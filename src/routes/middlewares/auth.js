@@ -1,8 +1,7 @@
 
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
-import { usersModel } from '../../dao/models/users.models.js'
-
+import { usersModel } from '../../persistence/mongoDB/models/users.models.js'
 
 // Functions
 export const hashPassword = async (password) => bcrypt.hash(password, 10)
@@ -12,11 +11,27 @@ export const tokenGenerator = (user) => jwt.sign({ user }, 'secretJWT')
 // Login and create session
 
 export const sessionLogin = async (req, res) => {
-    req.session.name = req.user.first_name
+    req.session.name = req.user.fullname
     req.session.email = req.user.email
+    req.session.role = req.user.role
     req.session.logged = true
+    req.session.cart = req.user.cart
     req.session.isAdmin = req.user.email === "maidana07@admin.com" ? true : false
-    res.redirect('/views/products')
+    // res.redirect('/views/products')
+
+    res.json(req.session)
+}
+
+// MIDDLE ROLES
+export function onlyAdmin(req, res, next) {
+    if (req.session.role == "admin") {
+        next()
+    } else {
+        res.json({
+            message: "No estas autorizado!",
+            error: "Solo para Administradores!"
+        })
+    }
 }
 
 
@@ -54,7 +69,11 @@ export const checkLogin = async (req, res) => {
                 .json({ token })
         }
     }
-    return res.render('login', { login: true, deny: true })
+    // return res.render('login', { login: true, deny: true })
+    return res.json({
+        message: "Usuario y/o contraseña incorrectos",
+        error: true
+    })
 }
 
 

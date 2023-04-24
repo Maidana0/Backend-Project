@@ -1,9 +1,8 @@
-import { productsModel } from "../dao/models/products.model.js"
-
+import { productsModel } from '../../mongoDB/models/products.model.js'
 
 const textError = numero => `Ocurrio un Error. El producto con el id:"${numero}" no existe.`
 
-export class ProductManagerDB {
+ class ProductsDao {
 
     async getProducts(obj) {
         try {
@@ -19,7 +18,7 @@ export class ProductManagerDB {
             const prevLink = infoProducts.hasPrevPage ? `http://localhost:8080/api/products?page=${infoProducts.page - 1}` : null
             const nextLink = infoProducts.hasNextPage ? `http://localhost:8080/api/products?page=${infoProducts.page + 1}` : null
 
-            const finish = {
+            return {
                 status: 'success',
                 payload: infoProducts.docs,
                 totalPages: infoProducts.totalPages,
@@ -31,8 +30,6 @@ export class ProductManagerDB {
                 prevLink,
                 nextLink
             }
-
-            return finish
 
         } catch (error) {
             return { error }
@@ -65,10 +62,7 @@ export class ProductManagerDB {
             }
 
             const addedProduct = await productsModel.create(currentProduct)
-            return {
-                "sucess": "Producto Agregado con Exito!",
-                "newProduct": addedProduct
-            }
+            return addedProduct
         }
         catch (error) {
             return { error }
@@ -80,7 +74,7 @@ export class ProductManagerDB {
             const updateProd = await productsModel.findByIdAndUpdate(idProd, obj,
                 { new: true })
             // if (!updateProd) return { "error": textError(idProd) };
-            return { "productoModificado": updateProd }
+            return updateProd
         }
         catch (error) {
             return { error }
@@ -91,10 +85,7 @@ export class ProductManagerDB {
         try {
             const deleteThis = await productsModel.findByIdAndDelete(byId)
             if (deleteThis) {
-                return {
-                    "sucess": "Producto Eliminado con exito!",
-                    "product": deleteThis
-                }
+                return deleteThis
             }
             // return { "error": textError(byId) }
         } catch (error) {
@@ -104,3 +95,5 @@ export class ProductManagerDB {
 }
 
 
+ const productsDAO = new ProductsDao()
+ export default productsDAO

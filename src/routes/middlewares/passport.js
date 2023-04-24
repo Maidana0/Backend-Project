@@ -10,8 +10,8 @@ const { google, github, jwt } = config.passport_strategies
 
 // Functions
 import {
-    googleLogin, githubLogin, localRegister, jwtPayLoadUser, serialize, deserialize
-} from '../../controllers/passport.controller.js'
+    googleLogin, githubLogin, localRegister, jwtPayLoadUser, serializeUser, deserializeUser
+} from '../../persistence/DAOs/usersDAOs/usersMongo.js'
 // uses
 
 passport.use('google', new GoogleStrategy({
@@ -47,6 +47,5 @@ passport.use('jwt', new jwtStrategy({
 )
 
 
-passport.serializeUser(serialize)
-
-passport.deserializeUser(deserialize)
+passport.serializeUser(serializeUser)
+passport.deserializeUser(deserializeUser)

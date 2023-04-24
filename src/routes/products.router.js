@@ -1,19 +1,17 @@
 import Router from './router.js'
-import {
-    getAll, getOne, addProduct, updateProduct, deleteProduct
-} from '../controllers/products.controller.js'
+import productsController from '../controllers/products.controller.js'
+
+import { onlyAdmin } from './middlewares/auth.js'
 
 export default class ProductsCustomeRouter extends Router {
     init() {
 
-        this.get('/', getAll)
+        this.get('/', productsController.getProducts)
+        this.get('/:pid', productsController.getProductById)
 
-        this.get('/:pid', getOne)
 
-        this.post('/', addProduct)
-
-        this.put('/:pid', updateProduct)
-
-        this.delete('/:pid', deleteProduct)
+        this.post('/', onlyAdmin, productsController.addProduct)
+        this.put('/:pid', onlyAdmin, productsController.updateProduct)
+        this.delete('/:pid', onlyAdmin, productsController.deleteProduct)
     }
 }

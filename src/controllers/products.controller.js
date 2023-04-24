@@ -1,63 +1,85 @@
-// import { ProductManagerDB } from "../components/mongoDB/ProductManagerDB.js";
-// const prod = new ProductManagerDB()
+import productsService from '../services/products.service.js'
 
-export const getAll = async (req, res) => {
-    try {
-        function ordenar(orde) {
-            if (orde == 'asc') return 1
-            if (orde == 'desc') return -1
-            else { return false }
+class ProductsController {
+    getProducts = async (req, res) => {
+        try {
+            const { limit, page, query, sort } = await req.query
+            const products = await productsService.getAll(limit, page, query, sort)
+            res.json({
+                message: "Lista de productos",
+                products
+            })
+        } catch (error) {
+            res.json({
+                message: "Error",
+                error
+            })
         }
+    }
 
-        const limit = req.query.limit ? Number(req.query.limit) : 10
-        const page = req.query.page ? Number(req.query.page) : 1
-        const query = req.query.query ? { category: req.query.query } : { status: true }
-        const sort = req.query.sort ? { price: ordenar(req.query.sort) } : { _id: 1 }
+    getProductById = async (req, res) => {
+        try {
+            const { pid } = req.params
+            const product = await productsService.getOne(pid)
+            res.json(product)
+        } catch (error) {
+            res.json({
+                message: "Error",
+                error
+            })
+        }
+    }
 
-        const obj = { limit, page, sort, query }
+    addProduct = async (req, res) => {
+        try {
+            const product = req.body
+            const addedProduct = await productsService.add(product)
+            res.json({
+                message: "Producto agregado!",
+                addedProduct
+            })
+        } catch (error) {
+            res.json({
+                message: "Error",
+                error
+            })
+        }
+    }
 
-        const list = await prod.getProducts(obj)
-        res.json(list)
-    } catch (error) {
-        console.log(error)
+    updateProduct = async (req, res) => {
+        try {
+            const { pid } = req.params
+            const product = req.body
+            const updateProduct = await productsService.update(pid, product)
+            res.json({
+                message: "Producto actualizado!",
+                updateProduct
+            })
+        } catch (error) {
+            res.json({
+                message: "Error",
+                error
+            })
+        }
     }
-}
-export const getOne = async (req, res) => {
-    try {
-        const idProduct = req.params.pid
-        res.redirect(`/views/products/${idProduct}`)
-    } catch (error) {
-        console.log(error)
-    }
-}
-export const addProduct = async (req, res) => {
-    try {
-        const obj = req.body
-        const addProduct = await prod.addProduct(obj)
 
-        if (addProduct.error) return res.json(addProduct)
-        res.json(addProduct)
-        //  res.redirect('/views')
-    } catch (error) {
-        console.log(error)
+    deleteProduct = async (req, res) => {
+        try {
+            const { pid } = req.params
+            const productDeleted = await productsService.deleteOne(pid)
+            res.json({
+                message: "Producto eliminado!",
+                productDeleted
+            })
+        } catch (error) {
+            res.json({
+                message: "Error",
+                error
+            })
+        }
     }
 }
-export const updateProduct = async (req, res) => {
-    try {
-        const idProd = req.params.pid
-        const obj = req.body
-        const updateProd = await prod.updateProduct(idProd, obj)
-        res.json(updateProd)
-    } catch (error) {
-        console.log(error)
-    }
-}
-export const deleteProduct = async (req, res) => {
-    try {
-        const product = parseInt(req.params.pid)
-        const deleteProduct = await prod.deleteProduct(product)
-        res.json(deleteProduct)
-    } catch (error) {
-        console.log(error)
-    }
-}
+
+
+const productsController = new ProductsController()
+export default productsController
